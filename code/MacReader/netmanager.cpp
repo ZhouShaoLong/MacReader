@@ -28,7 +28,7 @@ void NetManager::post(QByteArray data){
     request->setUrl(m_url);
     manager = new QNetworkAccessManager(this);
     request->setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
-//    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
+    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
     manager->post(*request,data);
 }
 
