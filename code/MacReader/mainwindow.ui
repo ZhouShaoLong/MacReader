@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>605</width>
+    <height>416</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>605</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>账户</string>
+    </property>
+    <addaction name="ac_login"/>
+    <addaction name="ac_register"/>
+    <addaction name="ac_logout"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <widget class="QMenu" name="fi_recent">
+     <property name="title">
+      <string>最近使用</string>
+     </property>
+     <property name="icon">
+      <iconset resource="image.qrc">
+       <normaloff>:/image/icon/files.png</normaloff>:/image/icon/files.png</iconset>
+     </property>
+     <addaction name="fi_file1"/>
+     <addaction name="fi_file2"/>
+     <addaction name="fi_file3"/>
+     <addaction name="fi_file4"/>
+     <addaction name="separator"/>
+     <addaction name="fi_clean"/>
+    </widget>
+    <addaction name="fi_open"/>
+    <addaction name="fi_recent"/>
+    <addaction name="actionclose"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="ac_login">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/count.png</normaloff>:/image/icon/count.png</iconset>
+   </property>
+   <property name="text">
+    <string>登录</string>
+   </property>
+  </action>
+  <action name="ac_register">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/sign_up.png</normaloff>:/image/icon/sign_up.png</iconset>
+   </property>
+   <property name="text">
+    <string>注册</string>
+   </property>
+  </action>
+  <action name="ac_logout">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/out.png</normaloff>:/image/icon/out.png</iconset>
+   </property>
+   <property name="text">
+    <string>注销</string>
+   </property>
+  </action>
+  <action name="fi_open">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/openfile.png</normaloff>:/image/icon/openfile.png</iconset>
+   </property>
+   <property name="text">
+    <string>打开文件</string>
+   </property>
+  </action>
+  <action name="actionclose">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/exit.png</normaloff>:/image/icon/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>关闭窗口</string>
+   </property>
+  </action>
+  <action name="fi_file1">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/file.png</normaloff>:/image/icon/file.png</iconset>
+   </property>
+   <property name="text">
+    <string>文件1</string>
+   </property>
+  </action>
+  <action name="fi_file2">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/file.png</normaloff>:/image/icon/file.png</iconset>
+   </property>
+   <property name="text">
+    <string>文件2</string>
+   </property>
+  </action>
+  <action name="fi_file3">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/file.png</normaloff>:/image/icon/file.png</iconset>
+   </property>
+   <property name="text">
+    <string>文件3</string>
+   </property>
+  </action>
+  <action name="fi_file4">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/file.png</normaloff>:/image/icon/file.png</iconset>
+   </property>
+   <property name="text">
+    <string>文件4</string>
+   </property>
+  </action>
+  <action name="fi_clean">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/clear.png</normaloff>:/image/icon/clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>清除</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="image.qrc"/>
+ </resources>
+ <connections/>
+</ui>

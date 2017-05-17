@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/image/icon">
+        <file>count.png</file>
+        <file>out.png</file>
+        <file>sign_up.png</file>
+        <file>exit.png</file>
+        <file>openfile.png</file>
+        <file>file.png</file>
+        <file>clear.png</file>
+        <file>files.png</file>
+    </qresource>
+</RCC>
