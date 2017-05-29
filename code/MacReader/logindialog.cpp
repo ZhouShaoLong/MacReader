@@ -13,6 +13,10 @@ LoginDialog::LoginDialog(QWidget *parent) :
     ui->label_name->setAlignment(Qt::AlignRight);
     ui->label_passwd->setAlignment(Qt::AlignRight);
 
+    ui->lineEdit_passwd->setEchoMode(QLineEdit::Password);
+    ui->lineEdit_passwd->setPlaceholderText(QStringLiteral("请输入密码"));
+    ui->lineEdit_passwd->setMaxLength(16);
+
     layout->addWidget(ui->label_name,0,0,1,1);
     layout->addWidget(ui->lineEdit_name,0,1,1,3);
     layout->addWidget(ui->label_passwd,1,0,1,1);
@@ -39,20 +43,22 @@ void LoginDialog::on_btn_exit_clicked()
 void LoginDialog::on_btn_login_clicked()
 {
     QByteArray data;
+    QJsonObject json;
+    QJsonDocument document;
     QString name,passwd;
 
     name = ui->lineEdit_name->text();
     passwd = ui->lineEdit_passwd->text();
 
-    data.append("name=");
-    data.append(name);
-    data.append("&");
-    data.append("passwd=");
-    data.append(passwd);
+    json.insert("name",name);
+    json.insert("passwd",passwd);
+
+    document.setObject(json);
+
+    data = document.toJson(QJsonDocument::Compact);
 
     netManager.setHostPort("127.0.0.1",8080);
     netManager.setPattern(net_login);
     netManager.post(data);
-    qDebug()<<netManager.getResult();
 
 }

@@ -1,12 +1,25 @@
 #ifndef NETMANAGER_H
 #define NETMANAGER_H
 
-#include <QDebug>
+/*
+ *网路管理类
+ *主要封装了发送网络请求的函数
+ *
+*/
+
+
 #include <QUrl>
-#include <QMessageBox>
+#include <QDebug>
 #include <QTextCodec>
+#include <QMessageBox>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
+
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonParseError>
+
+#include <QMainWindow>
 
 #define net_regist 1
 #define net_login 2

@@ -1,9 +1,17 @@
 #ifndef LOGINDIALOG_H
 #define LOGINDIALOG_H
 
+/*
+ *登录模块头文件
+ *验证登录信息
+ *
+*/
+
 #include <QDialog>
 #include <QGridLayout>
 #include <QByteArray>
+#include <QJsonObject>
+#include <QJsonDocument>
 
 #include <QDebug>
 

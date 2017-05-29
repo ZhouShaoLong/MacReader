@@ -28,16 +28,23 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     logindialog.cpp \
     registdialog.cpp \
-    netmanager.cpp
+    netmanager.cpp \
+    textmanage.cpp \
+    displaydialog.cpp \
+    ftpmanager.cpp
 
 HEADERS  += mainwindow.h \
     logindialog.h \
     registdialog.h \
-    netmanager.h
+    netmanager.h \
+    textmanage.h \
+    displaydialog.h \
+    ftpmanager.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \
-    registdialog.ui
+    registdialog.ui \
+    displaydialog.ui
 
 RESOURCES += \
     image.qrc

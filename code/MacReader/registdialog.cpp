@@ -76,25 +76,25 @@ void RegistDialog::on_btn_Regist_clicked()
 {
     if(check()){
         QByteArray data;
+        QJsonObject json;
+        QJsonDocument document;
         QString name,passwd1,passwd2,email;
         name = ui->lineEdit_name->text();
         passwd1 = ui->lineEdit_passwd1->text();
         passwd2 = ui->lineEdit_passwd2->text();
         email = ui->lineEdit_email->text();
 
-        data.append("name=");
-        data.append(name);
-        data.append("&");
-        data.append("passwd=");
-        data.append(passwd1);
-        data.append("&");
-        data.append("email=");
-        data.append(email);
+        json.insert("name",name);
+        json.insert("passwd",passwd1);
+        json.insert("email",email);
+
+        document.setObject(json);
+
+        data = document.toJson(QJsonDocument::Compact);
 
         netManager.setHostPort("127.0.0.1",8080);
         netManager.setPattern(net_regist);
         netManager.post(data);
-        qDebug()<<netManager.getResult();
     }
 }
 

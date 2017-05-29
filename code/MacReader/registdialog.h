@@ -1,10 +1,17 @@
 #ifndef REGISTDIALOG_H
 #define REGISTDIALOG_H
 
+/*
+ *注册模块类
+ *验证注册信息
+*/
+
 #include <QDialog>
 #include <QGridLayout>
 #include <QRegExp>
 #include <QValidator>
+#include <QJsonObject>
+#include <QJsonDocument>
 #include <QByteArray>
 
 #include "netmanager.h"

@@ -8,5 +8,15 @@
         <file>file.png</file>
         <file>clear.png</file>
         <file>files.png</file>
+        <file>download_1.png</file>
+        <file>upload_1.png</file>
+        <file>book.jpg</file>
+    </qresource>
+    <qresource prefix="/image/book">
+        <file>Tags.png</file>
+        <file>book.png</file>
+        <file>book2.png</file>
+        <file>fengmian.png</file>
+        <file>fm2.png</file>
     </qresource>
 </RCC>

@@ -13,7 +13,53 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QPushButton" name="book1">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>130</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+        background-image:url(:/image/icon/book.jpg);
+        border: 0px;
+}</string>
+    </property>
+    <property name="text">
+     <string>book</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="m_pUploadBar">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>240</y>
+      <width>118</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>24</number>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="m_pDownloadBar">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>240</y>
+      <width>118</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>24</number>
+    </property>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -53,6 +99,9 @@
     <addaction name="fi_open"/>
     <addaction name="fi_recent"/>
     <addaction name="actionclose"/>
+    <addaction name="separator"/>
+    <addaction name="actionupload"/>
+    <addaction name="actiondownload"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -146,6 +195,27 @@
    </property>
    <property name="text">
     <string>清除</string>
+   </property>
+  </action>
+  <action name="actionupload">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/upload_1.png</normaloff>:/image/icon/upload_1.png</iconset>
+   </property>
+   <property name="text">
+    <string>上传文件</string>
+   </property>
+   <property name="toolTip">
+    <string>upload</string>
+   </property>
+  </action>
+  <action name="actiondownload">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/image/icon/download_1.png</normaloff>:/image/icon/download_1.png</iconset>
+   </property>
+   <property name="text">
+    <string>下载文件</string>
    </property>
   </action>
  </widget>
