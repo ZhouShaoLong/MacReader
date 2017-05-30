@@ -17,6 +17,9 @@ void NetManager::setPattern(int a){
     case net_login:
         m_url.setPath("/MacReader/login");
         break;
+    case net_saveBook:
+        m_url.setPath("/MacReader/upload");
+        break;
     default:
         break;
     }
@@ -28,54 +31,19 @@ void NetManager::post(QByteArray data){
     request->setUrl(m_url);
     manager = new QNetworkAccessManager(this);
     request->setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
-    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
-    manager->post(*request,data);
-}
-
-void NetManager::replyFinished(QNetworkReply * replay){
-    QJsonParseError jsonError;
-    QJsonDocument document;
-    QJsonValue value;
-    double code;
-    QString dec;
-    QTextCodec * codec = QTextCodec::codecForName("UTF-8");
-    result = codec->toUnicode(replay->readAll());
-    qDebug()<<result;
-    document = QJsonDocument::fromJson(result.toUtf8(),&jsonError);
-
-    //解析服务器返回信息
-    if (!document.isNull() && (jsonError.error == QJsonParseError::NoError)) {  // 解析未发生错误
-        if (document.isObject()) { // JSON 文档为对象
-            QJsonObject json = document.object();
-            if(json.contains("code")){
-                value = json.value("code");
-                if(value.isDouble()){
-                    code = value.toDouble();
-                }
-            }
-            if(json.contains("dec")){
-                value = json.value("dec");
-                if(value.isString()){
-                    dec = value.toString();
-                }
-            }
-        }
+    QNetworkReply *reply = manager->post(*request,data);
+    QEventLoop eventLoop;
+    QObject::connect(reply, &QNetworkReply::finished, &eventLoop, &QEventLoop::quit);
+    eventLoop.exec(QEventLoop::ExcludeUserInputEvents);
+    if(reply->error()==QNetworkReply::NoError){
+        QTextCodec * codec = QTextCodec::codecForName("UTF-8");
+        result = codec->toUnicode(reply->readAll());
     }
-
-    if(code==1){
-        QMessageBox::information(NULL,tr("登录"),dec,QMessageBox::Ok);
-    }else {
-        QMessageBox::warning(NULL,tr("警告"),dec,QMessageBox::Ok);
-    }
-
-
-    replay->deleteLater();
+    reply->deleteLater();
+    reply=NULL;
 }
 
 QString NetManager::getResult(){
-    QString a;
-    a = result;
-    result = "";
-    return a;
+    return result;
 }
 

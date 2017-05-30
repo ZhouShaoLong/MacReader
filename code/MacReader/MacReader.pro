@@ -31,7 +31,9 @@ SOURCES += main.cpp\
     netmanager.cpp \
     textmanage.cpp \
     displaydialog.cpp \
-    ftpmanager.cpp
+    ftpmanager.cpp \
+    usermessage.cpp \
+    configmanager.cpp
 
 HEADERS  += mainwindow.h \
     logindialog.h \
@@ -39,7 +41,9 @@ HEADERS  += mainwindow.h \
     netmanager.h \
     textmanage.h \
     displaydialog.h \
-    ftpmanager.h
+    ftpmanager.h \
+    usermessage.h \
+    configmanager.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \

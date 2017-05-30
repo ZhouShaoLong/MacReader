@@ -13,50 +13,46 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">MainWindow{
+	border-image:url(:/image/book/Bookshelf.png)
+}</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="book1">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>130</y>
-      <width>113</width>
-      <height>32</height>
+      <x>70</x>
+      <y>20</y>
+      <width>120</width>
+      <height>150</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>120</width>
+      <height>150</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>120</width>
+      <height>150</height>
+     </size>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-        background-image:url(:/image/icon/book.jpg);
-        border: 0px;
+	border-image:url(:/image/book/fm2.png);
+	border-style: outset;
+	border-width:2px;
+	border-color: blue;
+	border-radius:5px;
+	text-align : right;
+	text-top:20px;
 }</string>
     </property>
     <property name="text">
      <string>book</string>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="m_pUploadBar">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>240</y>
-      <width>118</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="m_pDownloadBar">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>240</y>
-      <width>118</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>24</number>
     </property>
    </widget>
   </widget>

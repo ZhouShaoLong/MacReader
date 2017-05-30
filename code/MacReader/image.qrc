@@ -14,9 +14,10 @@
     </qresource>
     <qresource prefix="/image/book">
         <file>Tags.png</file>
-        <file>book.png</file>
         <file>book2.png</file>
         <file>fengmian.png</file>
         <file>fm2.png</file>
+        <file>book.png</file>
+        <file>Bookshelf.png</file>
     </qresource>
 </RCC>

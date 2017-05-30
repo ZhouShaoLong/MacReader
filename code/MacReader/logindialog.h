@@ -11,6 +11,7 @@
 #include <QGridLayout>
 #include <QByteArray>
 #include <QJsonObject>
+#include <QMessageBox>
 #include <QJsonDocument>
 
 #include <QDebug>
@@ -28,10 +29,10 @@ class LoginDialog : public QDialog
 public:
     explicit LoginDialog(QWidget *parent = 0);
     ~LoginDialog();
+    bool resolve(QString);
 
 private slots:
     void on_btn_exit_clicked();
-
     void on_btn_login_clicked();
 
 private:

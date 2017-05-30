@@ -13,6 +13,7 @@
 #include <QTextCodec>
 #include <QMessageBox>
 #include <QNetworkReply>
+#include <QEventLoop>
 #include <QNetworkAccessManager>
 
 #include <QJsonObject>
@@ -23,6 +24,7 @@
 
 #define net_regist 1
 #define net_login 2
+#define net_saveBook 3
 
 
 class NetManager : public QObject
@@ -41,8 +43,6 @@ private:
     QNetworkRequest *request;
     QString result;
 
-private slots:
-    void replyFinished(QNetworkReply *);
 
 };
 

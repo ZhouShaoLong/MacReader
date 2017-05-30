@@ -11,6 +11,7 @@
 #include "textmanage.h"
 #include "displaydialog.h"
 #include "ftpmanager.h"
+#include "usermessage.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +24,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    UserMessage user;
+
 
 private slots:
     //按钮的槽函数
@@ -49,6 +52,7 @@ private:
     QProgressBar *m_pUploadBar;
     QProgressBar *m_pDownloadBar;
     FtpManager m_ftp;
+    NetManager FtpFinfo;
 
 };
 

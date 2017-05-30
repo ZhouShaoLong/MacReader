@@ -35,6 +35,44 @@ LoginDialog::~LoginDialog()
     delete ui;
 }
 
+bool LoginDialog::resolve(QString result)
+{
+    int code;
+    QString dec;
+
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(result.toUtf8(), &json_error);
+    QJsonValue value;
+    if(json_error.error==QJsonParseError::NoError){
+        if(parse_doucment.isObject()){
+            QJsonObject json = parse_doucment.object();
+            if(json.contains("code")){
+                value = json.take("code");
+                if(value.isDouble()){
+                    code = value.toVariant().toInt();
+                }
+            }
+            if(json.contains("dec")){
+                value = json.take("dec");
+                if(value.isString()){
+                    dec = value.toString();
+                }
+            }
+        }
+        qDebug()<<tr("code:")<<code<<endl<<tr("dec:")<<dec;
+        if(code==1){
+            QMessageBox::information(NULL,tr("登录"),dec,QMessageBox::Ok);
+            this->close();
+        }else if(code<0) {
+            QMessageBox::information(NULL,tr("登录"),dec,QMessageBox::Ok);
+        }
+    }else {
+        return false;
+    }
+
+    return true;
+}
+
 void LoginDialog::on_btn_exit_clicked()
 {
     this->close();
@@ -45,7 +83,7 @@ void LoginDialog::on_btn_login_clicked()
     QByteArray data;
     QJsonObject json;
     QJsonDocument document;
-    QString name,passwd;
+    QString name,passwd,result;
 
     name = ui->lineEdit_name->text();
     passwd = ui->lineEdit_passwd->text();
@@ -61,4 +99,7 @@ void LoginDialog::on_btn_login_clicked()
     netManager.setPattern(net_login);
     netManager.post(data);
 
+    result = netManager.getResult();
+    qDebug()<<result;
+    resolve(result);
 }

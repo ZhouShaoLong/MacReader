@@ -8,8 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle(tr("书架"));
 
-    m_pUploadBar = ui->m_pUploadBar;
-    m_pDownloadBar = ui->m_pDownloadBar;
+    m_pUploadBar = new QProgressBar;
+    m_pDownloadBar = new QProgressBar;
 
     m_pUploadBar->setValue(0);
     m_pDownloadBar->setValue(0);
@@ -31,7 +31,6 @@ void MainWindow::showBook()
     this->hide();
     showBook->exec();
     this->show();
-
 }
 
 
@@ -70,9 +69,35 @@ void MainWindow::on_fi_open_triggered()
 //文件上传
 void MainWindow::on_actionupload_triggered()
 {
+
+
+    QByteArray data;
+    QJsonObject json;
+    QJsonDocument document;
+    QString name,author,path,words;
+
     QString fname = QFileDialog::getOpenFileName(this,tr("选择上传文件"),"/Users/zhou/Desktop/我的文档/小说",tr("文本文件(*.txt)"));
     QFileInfo finfo = QFileInfo(fname);
     QString FtpPath = "/home/test/"+finfo.fileName();
+
+    name = finfo.fileName();
+    author = "";
+    path = FtpPath;
+    words = "1200000";
+
+    json.insert("name",name);
+    json.insert("author",author);
+    json.insert("path",path);
+    json.insert("words",words);
+
+    document.setObject(json);
+
+    data = document.toJson(QJsonDocument::Compact);
+
+    FtpFinfo.setHostPort("127.0.0.1",8080);
+    FtpFinfo.setPattern(net_saveBook);
+    FtpFinfo.post(data);
+
     m_ftp.put(fname, FtpPath);
     connect(&m_ftp, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
     connect(&m_ftp, SIGNAL(uploadProgress(qint64, qint64)), this, SLOT(uploadProgress(qint64, qint64)));
