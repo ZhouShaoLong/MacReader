@@ -1,6 +1,7 @@
 #include "netmanager.h"
 
-NetManager::NetManager(QObject *parent) : QObject(parent){
+NetManager::NetManager(QObject *parent)
+    : QObject(parent){
     m_url.setScheme("http");
 }
 

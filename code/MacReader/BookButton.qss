@@ -1,0 +1,10 @@
+QPushButton {
+    border-image:url(:/image/book/fm2.png);
+    border-style: outset;
+    border-width:2px;
+    border-color: blue;
+    border-radius:5px;
+    padding-top:-20px;
+    text-align:right;
+    color:black;
+}

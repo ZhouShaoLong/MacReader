@@ -17,9 +17,13 @@ RegistDialog::RegistDialog(QWidget *parent) :
     ui->lineEdit_passwd1->setEchoMode(QLineEdit::Password);
     ui->lineEdit_passwd2->setEchoMode(QLineEdit::Password);
 
-    QRegExp rx("^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$");
-    QValidator * valid = new QRegExpValidator(rx,this);
-    ui->lineEdit_email->setValidator(valid);
+    QRegExp rx1("^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$");
+    QValidator * valid1 = new QRegExpValidator(rx1,this);
+    ui->lineEdit_email->setValidator(valid1);
+
+    QRegExp rx2("[_a-zA-Z0-9]{3,12}");
+    QValidator * valid2 = new QRegExpValidator(rx2,this);
+    ui->lineEdit_name->setValidator(valid2);
 
     layout->addWidget(ui->label_name,0,0,1,1);
     layout->addWidget(ui->lineEdit_name,0,1,1,3);
@@ -78,7 +82,7 @@ void RegistDialog::on_btn_Regist_clicked()
         QByteArray data;
         QJsonObject json;
         QJsonDocument document;
-        QString name,passwd1,passwd2,email;
+        QString name,passwd1,passwd2,email,result;
         name = ui->lineEdit_name->text();
         passwd1 = ui->lineEdit_passwd1->text();
         passwd2 = ui->lineEdit_passwd2->text();
@@ -95,7 +99,53 @@ void RegistDialog::on_btn_Regist_clicked()
         netManager.setHostPort("127.0.0.1",8080);
         netManager.setPattern(net_regist);
         netManager.post(data);
+
+        result = netManager.getResult();
+        qDebug()<<result;
+        resolve(result);
+
+    }else{
+        QMessageBox::information(NULL,tr("注册"),tr("用户信息验证不合法"),QMessageBox::Ok);
     }
+}
+
+bool RegistDialog::resolve(QString result)
+{
+    int code = 0;
+    QString dec = "";
+
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(result.toUtf8(), &json_error);
+    QJsonValue value;
+    if(json_error.error==QJsonParseError::NoError){
+        if(parse_doucment.isObject()){
+            QJsonObject json = parse_doucment.object();
+            if(json.contains("code")){
+                value = json.take("code");
+                if(value.isDouble()){
+                    code = value.toVariant().toInt();
+                }
+            }
+            if(json.contains("dec")){
+                value = json.take("dec");
+                if(value.isString()){
+                    dec = value.toString();
+                }
+            }
+        }
+        qDebug()<<tr("code:")<<code<<endl<<tr("dec:")<<dec;
+        if(code==1){
+            QMessageBox::information(NULL,tr("注册"),dec,QMessageBox::Ok);
+            this->close();
+        }else if(code<=0) {
+            QMessageBox::information(NULL,tr("注册"),dec,QMessageBox::Ok);
+        }
+    }else {
+
+        return false;
+    }
+
+    return true;
 }
 
 void RegistDialog::on_btn_Exit_clicked()

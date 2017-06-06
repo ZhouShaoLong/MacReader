@@ -1,5 +1,5 @@
 #include <QFileInfo>
-#include "FTPManager.h"
+#include "ftpmanager.h"
 
 FtpManager::FtpManager(QObject *parent)
     : QObject(parent)

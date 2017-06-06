@@ -37,6 +37,7 @@ private:
     Ui::RegistDialog *ui;
     NetManager netManager;
     bool check();
+    bool resolve(QString);
 };
 
 #endif // REGISTDIALOG_H

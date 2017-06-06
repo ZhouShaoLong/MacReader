@@ -27,6 +27,12 @@
      <height>341</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QScrollBar{
+	width:0px;
+	height:0px;
+}</string>
+   </property>
   </widget>
   <widget class="QTextEdit" name="rightBook">
    <property name="geometry">

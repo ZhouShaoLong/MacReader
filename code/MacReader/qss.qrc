@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/qss/button">
+        <file>BookButton.qss</file>
+    </qresource>
+    <qresource prefix="/qss/text">
+        <file>TextStyle.qss</file>
+    </qresource>
+</RCC>

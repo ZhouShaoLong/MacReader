@@ -12,6 +12,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = MacReader
 TEMPLATE = app
 
+# 调用python
+INCLUDEPATH += -I /usr/include/python2.7
+LIBS += -L /usr/lib -lpython2.7
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -23,6 +27,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+#icon
+ICON =
+
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -33,7 +40,7 @@ SOURCES += main.cpp\
     displaydialog.cpp \
     ftpmanager.cpp \
     usermessage.cpp \
-    configmanager.cpp
+    mybutton.cpp
 
 HEADERS  += mainwindow.h \
     logindialog.h \
@@ -43,7 +50,7 @@ HEADERS  += mainwindow.h \
     displaydialog.h \
     ftpmanager.h \
     usermessage.h \
-    configmanager.h
+    mybutton.h
 
 FORMS    += mainwindow.ui \
     logindialog.ui \
@@ -51,4 +58,8 @@ FORMS    += mainwindow.ui \
     displaydialog.ui
 
 RESOURCES += \
-    image.qrc
+    image.qrc \
+    qss.qrc
+
+DISTFILES += \
+    Decode.py

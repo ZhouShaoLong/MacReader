@@ -11,6 +11,7 @@
         <file>download_1.png</file>
         <file>upload_1.png</file>
         <file>book.jpg</file>
+        <file>book.ico</file>
     </qresource>
     <qresource prefix="/image/book">
         <file>Tags.png</file>

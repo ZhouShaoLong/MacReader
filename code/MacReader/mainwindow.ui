@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>605</width>
-    <height>416</height>
+    <width>540</width>
+    <height>362</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,50 +18,13 @@
 	border-image:url(:/image/book/Bookshelf.png)
 }</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="book1">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>20</y>
-      <width>120</width>
-      <height>150</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>120</width>
-      <height>150</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>120</width>
-      <height>150</height>
-     </size>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-	border-image:url(:/image/book/fm2.png);
-	border-style: outset;
-	border-width:2px;
-	border-color: blue;
-	border-radius:5px;
-	text-align : right;
-	text-top:20px;
-}</string>
-    </property>
-    <property name="text">
-     <string>book</string>
-    </property>
-   </widget>
-  </widget>
+  <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>605</width>
+     <width>540</width>
      <height>22</height>
     </rect>
    </property>
@@ -111,6 +74,9 @@
    <property name="text">
     <string>登录</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
   </action>
   <action name="ac_register">
    <property name="icon">
@@ -119,6 +85,9 @@
    </property>
    <property name="text">
     <string>注册</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="ac_logout">
@@ -129,6 +98,9 @@
    <property name="text">
     <string>注销</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
   </action>
   <action name="fi_open">
    <property name="icon">
@@ -138,6 +110,9 @@
    <property name="text">
     <string>打开文件</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionclose">
    <property name="icon">
@@ -146,6 +121,9 @@
    </property>
    <property name="text">
     <string>关闭窗口</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
   </action>
   <action name="fi_file1">
@@ -204,6 +182,9 @@
    <property name="toolTip">
     <string>upload</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
   </action>
   <action name="actiondownload">
    <property name="icon">
@@ -212,6 +193,9 @@
    </property>
    <property name="text">
     <string>下载文件</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
  </widget>

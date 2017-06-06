@@ -13,6 +13,10 @@
 #include <QJsonObject>
 #include <QMessageBox>
 #include <QJsonDocument>
+#include <QSettings>
+#include <QCoreApplication>
+#include <QRegExp>
+#include <QTimer>
 
 #include <QDebug>
 
@@ -30,6 +34,9 @@ public:
     explicit LoginDialog(QWidget *parent = 0);
     ~LoginDialog();
     bool resolve(QString);
+    void refresh();
+    void saveUser();
+    void changeStatus();
 
 private slots:
     void on_btn_exit_clicked();

@@ -6,30 +6,69 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     this->setWindowTitle(tr("书架"));
+    this->setFixedSize(960,600);
 
-    m_pUploadBar = new QProgressBar;
-    m_pDownloadBar = new QProgressBar;
+//    initIni();
+    listBook();
 
-    m_pUploadBar->setValue(0);
-    m_pDownloadBar->setValue(0);
+//    QCoreApplication::setApplicationName("MacReader");
+//    QCoreApplication::setOrganizationName("zhou");
 
+//    QSettings settings(QSettings::IniFormat, QSettings::UserScope, QCoreApplication::organizationName(), QCoreApplication::applicationName());
+
+//    settings.beginGroup("User");
+
+//    settings.endGroup();
+
+    //设置上传文件的ip地址、端口、用户名、密码
     m_ftp.setHostPort("120.25.60.217", 21);
     m_ftp.setUserInfo("test", "123123");
+
+    dis = new DisplayDialog(this);
+    connect(this,SIGNAL(sendPath(QString)),dis,SLOT(receivePath(QString)));
 }
 
 MainWindow::~MainWindow()
 {
+    //注销登录状态
+    on_ac_logout_triggered();
+
+    //释放按钮资源
+    while(!ButtonGroup.isEmpty()){
+        delete ButtonGroup.takeFirst();
+    }
+
+    //释放展示界面资源
+    delete dis;
     delete ui;
 }
+
 
 //自定义槽函数
 
 void MainWindow::showBook()
 {
-    DisplayDialog *showBook = new DisplayDialog(this);
+    //检查是哪一个按钮被点击, 即用户点击的是哪一本书
+    MyButton *pt=qobject_cast <MyButton*>(sender());
+    if(!pt){
+        return;
+    }
+    QListIterator<Book> i(Books);
+    while(i.hasNext()){
+        Book book = i.next();
+        QString name = pt->text();
+        if(!QString::compare(book.name,name)){
+            this->path = book.path;
+            break;
+        }
+    }
+    emit sendPath(path);
+
+
     this->hide();
-    showBook->exec();
+    dis->exec();
     this->show();
 }
 
@@ -41,6 +80,7 @@ void MainWindow::on_ac_login_triggered()
 {
     login = new LoginDialog(this);
     login->exec();
+    delete login;
 }
 
 //菜单栏注册按钮槽函数
@@ -48,47 +88,190 @@ void MainWindow::on_ac_register_triggered()
 {
     regist = new RegistDialog(this);
     regist->exec();
+    delete regist;
 }
 
 //菜单栏注销按钮槽函数
 void MainWindow::on_ac_logout_triggered()
 {
+    QCoreApplication::setApplicationName("MacReader");
+    QCoreApplication::setOrganizationName("zhou");
 
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, QCoreApplication::organizationName(), QCoreApplication::applicationName());
+
+    settings.beginGroup("LogStatus");
+    settings.remove("");
+    settings.endGroup();
 }
 
 //菜单栏打开文件按钮槽函数
 void MainWindow::on_fi_open_triggered()
 {
     QString file = "";
+    QFileInfo finfo;
     file = QFileDialog::getOpenFileName(this,tr("文件对话框"),"/Users/zhou/Desktop/我的文档/小说",tr("文本文件(*txt)"));
-    qDebug()<<file;
-    TextManage tex(this);
-    tex.conversion(file);
+    finfo = QFileInfo(file);
+    qDebug()<<file<<finfo.baseName();
+    CreatButton(finfo.baseName(),file);
+
+
+    Py_Initialize();
+    if(!PyRun_SimpleString("execfile('Decode.py')"))
+            qDebug()<<"execute python file program failed";
+
+
+    Py_Finalize();
+
+
+//    TextManage tex(this);
+//    tex.conversion(file);
 }
+
+void MainWindow::CreatButton(QString name,QString path)
+{
+    QCoreApplication::setApplicationName("MacReader");
+    QCoreApplication::setOrganizationName("zhou");
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, QCoreApplication::organizationName(), QCoreApplication::applicationName());
+
+    QFile qssFile(":/qss/button/BookButton.qss");
+    qssFile.open(QFile::ReadOnly);
+
+    ButtonGroup.append(new MyButton(this));
+    ButtonGroup.last()->setText(name);
+    ButtonGroup.last()->setGeometry(160*((ButtonGroup.length()-1)%4+1),10+180*((ButtonGroup.length()-1)/4),100,150);
+
+    ButtonGroup.last()->setStyleSheet(qssFile.readAll());
+    ButtonGroup.last()->show();
+    connect(ButtonGroup.last(),SIGNAL(clicked(bool)),this,SLOT(showBook()));
+    connect(ButtonGroup.last()->m_actionOne, SIGNAL(triggered()), this, SLOT(openSlots()));
+    connect(ButtonGroup.last()->m_actionTwo, SIGNAL(triggered()), this, SLOT(deleteSlots()));
+    connect(ButtonGroup.last()->m_actionThree, SIGNAL(triggered()), this, SLOT(renameSlots()));
+
+    Book book;
+    book.name = name;
+    book.path = path;
+    Books.append(book);
+
+    settings.beginWriteArray("BookList");
+    settings.setArrayIndex(ButtonGroup.length()-1);
+    settings.setValue("BookName",name);
+    settings.setValue("BookPath",path);
+    settings.endArray();
+}
+
+void MainWindow::openSlots()
+{
+//    MyButton *pt=qobject_cast <MyButton*>(sender());
+    QAction *ac = qobject_cast <QAction*>(sender());
+    if(!ac){
+        return;
+    }
+    MyButton *pt =(MyButton*) ac->parentWidget();
+    QListIterator<Book> i(Books);
+    while(i.hasNext()){
+        Book book = i.next();
+        QString name = pt->text();
+        if(!QString::compare(book.name,name)){
+            this->path = book.path;
+            break;
+        }
+        qDebug()<<name;
+    }
+    emit sendPath(path);
+    this->hide();
+    dis->exec();
+    this->show();
+}
+
+void MainWindow::deleteSlots()
+{
+
+    qDebug()<<tr("2");
+}
+
+void MainWindow::renameSlots()
+{
+    qDebug()<<tr("3");
+}
+
+void MainWindow::listBook()
+{
+    QCoreApplication::setApplicationName("MacReader");
+    QCoreApplication::setOrganizationName("zhou");
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, QCoreApplication::organizationName(), QCoreApplication::applicationName());
+
+    int size = 0;
+    size = settings.beginReadArray("BookList");
+
+    for(int i = 0;i<size;i++){
+        settings.setArrayIndex(i);
+        Book book;
+        book.name = settings.value("BookName").toString();
+        book.path = settings.value("BookPath").toString();
+        Books.append(book);
+        CreatButton(book.name,book.path);
+    }
+    settings.endArray();
+}
+
 
 //文件上传
 void MainWindow::on_actionupload_triggered()
 {
-
-
     QByteArray data;
     QJsonObject json;
     QJsonDocument document;
-    QString name,author,path,words;
+    QString name,path,UserName,FileHash;
+    int status,UserID,size;
+
+    QCoreApplication::setApplicationName("MacReader");
+    QCoreApplication::setOrganizationName("zhou");
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, QCoreApplication::organizationName(), QCoreApplication::applicationName());
+
+    settings.beginGroup("LogStatus");
+    status = settings.value("Status").toInt();
+    UserName = settings.value("name").toString();
+    UserID = settings.value("id").toInt();
+    settings.endGroup();
+
+    if(status==0){
+        QMessageBox::information(NULL,tr("上传文件"),tr("请先登录后再上传文件"),QMessageBox::Ok);
+        return;
+    }
 
     QString fname = QFileDialog::getOpenFileName(this,tr("选择上传文件"),"/Users/zhou/Desktop/我的文档/小说",tr("文本文件(*.txt)"));
     QFileInfo finfo = QFileInfo(fname);
+    if(!finfo.isFile()){
+        qDebug()<<tr("a");
+        return;
+    }
+
+    //获取文件的Hash值
+    QFile file(fname);
+    if(file.open(QIODevice::ReadOnly)){
+        QByteArray bArray = QCryptographicHash::hash(file.readAll(),QCryptographicHash::Md5);
+        FileHash = QString(bArray.toHex()).toUpper();
+    }
+    file.close();
+    qDebug()<<FileHash;
+
+
     QString FtpPath = "/home/test/"+finfo.fileName();
 
-    name = finfo.fileName();
-    author = "";
+    name = finfo.baseName();
     path = FtpPath;
-    words = "1200000";
+    size = finfo.size();
 
-    json.insert("name",name);
-    json.insert("author",author);
-    json.insert("path",path);
-    json.insert("words",words);
+    pro = new QProgressDialog("《"+finfo.baseName()+"》正在上传中，请稍后","取消",0,size,this);
+
+    json.insert("BookName",name);
+    json.insert("OwnID",UserID);
+    json.insert("Path",FtpPath);
+    json.insert("Hash",FileHash);
+    json.insert("Size",size);
 
     document.setObject(json);
 
@@ -106,7 +289,7 @@ void MainWindow::on_actionupload_triggered()
 //文件下载
 void MainWindow::on_actiondownload_triggered()
 {
-    m_ftp.get("/home/test/jx.txt", "/Users/zhou/Desktop/jx2.txt");
+    m_ftp.get("/home/test/破灭时空.txt", "/Users/zhou/Desktop/jx.txt");
     connect(&m_ftp, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
     connect(&m_ftp, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgress(qint64, qint64)));
 }
@@ -114,20 +297,18 @@ void MainWindow::on_actiondownload_triggered()
 // 更新上传进度
 void MainWindow::uploadProgress(qint64 bytesSent, qint64 bytesTotal)
 {
-    m_pUploadBar->setMaximum(bytesTotal);
-    m_pUploadBar->setValue(bytesSent);
+    pro->setValue((int)bytesSent);
     if(bytesSent==bytesTotal){
-        qDebug()<<tr("上传完成");
+        QMessageBox::information(NULL,tr("上传文件"),tr("文件上传成功"),QMessageBox::Ok);
     }
 }
 
 // 更新下载进度
 void MainWindow::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    m_pDownloadBar->setMaximum(bytesTotal);
-    m_pDownloadBar->setValue(bytesReceived);
+    pro->setValue((int)bytesReceived);
     if(bytesReceived==bytesTotal){
-        qDebug()<<tr("下载完成");
+        QMessageBox::information(NULL,tr("下载文件"),tr("文件下载成功"),QMessageBox::Ok);
     }
 }
 
@@ -144,12 +325,29 @@ void MainWindow::error(QNetworkReply::NetworkError error)
     }
 }
 
-
-//主界面函数实现
-
-void MainWindow::on_book1_clicked()
+void MainWindow::initIni()
 {
-    showBook();
+    QCoreApplication::setApplicationName("MacReader");
+    QCoreApplication::setOrganizationName("zhou");
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, QCoreApplication::organizationName(), QCoreApplication::applicationName());
+
+    settings.beginGroup("User");
+    settings.setValue("Name", "zhou");
+    settings.setValue("Passwd", "zhou123123");
+    settings.endGroup();
+
+    settings.beginGroup("Login");
+    settings.setValue("Remember",0);
+    settings.setValue("AutoLogin",0);
+    settings.endGroup();
+
+    settings.beginGroup("Display");
+    settings.setValue("FontSize",10);
+    settings.setValue("FontColor","black");
+    settings.setValue("BackGround",0);
+    settings.endGroup();
 }
+
 
 
