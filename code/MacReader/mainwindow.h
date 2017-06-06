@@ -44,7 +44,6 @@ public:
 public slots:
     void openSlots();
     void deleteSlots();
-    void renameSlots();
 
 private slots:
     //按钮的槽函数
@@ -62,6 +61,8 @@ private slots:
     void uploadProgress(qint64 bytesSent, qint64 bytesTotal);
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void error(QNetworkReply::NetworkError error);
+
+    void on_actionclose_triggered();
 
 private:
     Ui::MainWindow *ui;

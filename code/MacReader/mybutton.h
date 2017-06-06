@@ -13,14 +13,6 @@ public:
     ~MyButton();
     QAction *m_actionOne;
     QAction *m_actionTwo;
-    QAction *m_actionThree;
-
-protected slots:
-    void actionOneSlot();
-    void actionTwoSlot();
-    void actionThreeSlot();
-
-
 
 };
 

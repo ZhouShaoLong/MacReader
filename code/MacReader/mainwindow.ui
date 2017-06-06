@@ -120,7 +120,7 @@
      <normaloff>:/image/icon/exit.png</normaloff>:/image/icon/exit.png</iconset>
    </property>
    <property name="text">
-    <string>关闭窗口</string>
+    <string>清空书架</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>

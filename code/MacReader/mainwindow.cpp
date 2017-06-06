@@ -146,7 +146,6 @@ void MainWindow::CreatButton(QString name,QString path)
     connect(ButtonGroup.last(),SIGNAL(clicked(bool)),this,SLOT(showBook()));
     connect(ButtonGroup.last()->m_actionOne, SIGNAL(triggered()), this, SLOT(openSlots()));
     connect(ButtonGroup.last()->m_actionTwo, SIGNAL(triggered()), this, SLOT(deleteSlots()));
-    connect(ButtonGroup.last()->m_actionThree, SIGNAL(triggered()), this, SLOT(renameSlots()));
 
     Book book;
     book.name = name;
@@ -162,7 +161,6 @@ void MainWindow::CreatButton(QString name,QString path)
 
 void MainWindow::openSlots()
 {
-//    MyButton *pt=qobject_cast <MyButton*>(sender());
     QAction *ac = qobject_cast <QAction*>(sender());
     if(!ac){
         return;
@@ -186,14 +184,26 @@ void MainWindow::openSlots()
 
 void MainWindow::deleteSlots()
 {
-
+    QAction *ac = qobject_cast <QAction*>(sender());
+    if(!ac){
+        return;
+    }
+    MyButton *pt =(MyButton*) ac->parentWidget();
+    QListIterator<MyButton*> i(ButtonGroup);
+    int index = 0;
+    while(i.hasNext()){
+        MyButton * btn = i.next();
+        QString name = pt->text();
+        QString name_btn = btn->text();
+        if(!QString::compare(name_btn,name)){
+            delete ButtonGroup.at(index);
+            ButtonGroup.removeAt(index);
+        }
+        index++;
+    }
     qDebug()<<tr("2");
 }
 
-void MainWindow::renameSlots()
-{
-    qDebug()<<tr("3");
-}
 
 void MainWindow::listBook()
 {
@@ -351,3 +361,10 @@ void MainWindow::initIni()
 
 
 
+
+void MainWindow::on_actionclose_triggered()
+{
+    while(!ButtonGroup.isEmpty()){
+        delete ButtonGroup.takeFirst();
+    }
+}
