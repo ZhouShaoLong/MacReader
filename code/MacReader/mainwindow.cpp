@@ -196,8 +196,7 @@ void MainWindow::deleteSlots()
         QString name = pt->text();
         QString name_btn = btn->text();
         if(!QString::compare(name_btn,name)){
-            delete ButtonGroup.at(index);
-            ButtonGroup.removeAt(index);
+            delete ButtonGroup.takeAt(index);
         }
         index++;
     }

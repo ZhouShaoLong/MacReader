@@ -39,6 +39,10 @@ DisplayDialog::DisplayDialog(QWidget *parent) :
     setLayout(BookLayout);
 
     this->setFocusPolicy(Qt::StrongFocus);
+
+    for(int i=0;i<10000;i++){
+        pages[i] = 0;
+    }
 }
 
 DisplayDialog::~DisplayDialog()
@@ -46,13 +50,13 @@ DisplayDialog::~DisplayDialog()
     delete ui;
     delete right;
     delete left;
-    qDebug()<<tr("~DisplayDialog()");
 }
 
 int DisplayDialog::displayText(){
 //    filePath = QFileDialog::getOpenFileName(this,tr("文件对话框"),"/Users/zhou/Desktop/我的文档/小说",tr("文本文件(*txt)"));
+    qDebug()<<"1"<<filePath;
     QFile file(filePath);
-    finfo = QFileInfo(filePath);
+    finfo = QFileInfo(file);
     this->setWindowTitle(finfo.baseName());
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -128,6 +132,13 @@ void DisplayDialog::keyPressEvent(QKeyEvent *k)
     }
     if(k->key()==Qt::Key_Up||k->key()==Qt::Key_Left){
         PreviousPage();
+    }
+
+    //是否按下Control键，在Mac上为command
+    if(k->modifiers()==Qt::ControlModifier){
+        if(k->key()==Qt::Key_Q){
+            this->close();
+        }
     }
 }
 

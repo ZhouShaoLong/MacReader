@@ -19,5 +19,6 @@ MyButton::MyButton(QWidget *parent)
 
 MyButton::~MyButton()
 {
-
+    delete m_actionOne;
+    delete m_actionTwo;
 }
