@@ -96,7 +96,7 @@ void RegistDialog::on_btn_Regist_clicked()
 
         data = document.toJson(QJsonDocument::Compact);
 
-        netManager.setHostPort("127.0.0.1",8080);
+        netManager.setHostPort("120.25.60.217",8080);
         netManager.setPattern(net_regist);
         netManager.post(data);
 

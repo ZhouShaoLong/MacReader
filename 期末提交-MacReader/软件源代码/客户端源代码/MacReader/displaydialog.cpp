@@ -27,7 +27,6 @@ DisplayDialog::DisplayDialog(QWidget *parent) :
     left->copyAvailable(false);
     right->copyAvailable(false);
 
-//    left->setStyleSheet("QTextEdit{font-color:color;}");
 
 
     BookLayout->addWidget(left,0,0,4,2);
@@ -43,6 +42,7 @@ DisplayDialog::DisplayDialog(QWidget *parent) :
     for(int i=0;i<10000;i++){
         pages[i] = 0;
     }
+    page = 0;
 }
 
 DisplayDialog::~DisplayDialog()
@@ -54,14 +54,13 @@ DisplayDialog::~DisplayDialog()
 
 int DisplayDialog::displayText(){
 //    filePath = QFileDialog::getOpenFileName(this,tr("文件对话框"),"/Users/zhou/Desktop/我的文档/小说",tr("文本文件(*txt)"));
-    qDebug()<<"1"<<filePath;
     QFile file(filePath);
     finfo = QFileInfo(file);
     this->setWindowTitle(finfo.baseName());
-
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
        QMessageBox::warning(this,"Warnning","can't open",QMessageBox::Yes);
+       qDebug()<<tr("文件打开失败！");
        return 0;
     }
     QTextStream in(&file);
@@ -80,7 +79,8 @@ void DisplayDialog::NextPage()
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
        QMessageBox::warning(this,"Warnning","can't open",QMessageBox::Yes);
-
+       qDebug()<<tr("文件打开失败！");
+       return;
     }
     QTextStream in(&file);
     in.seek(pages[page]);
@@ -134,7 +134,7 @@ void DisplayDialog::keyPressEvent(QKeyEvent *k)
         PreviousPage();
     }
 
-    //是否按下Control键，在Mac上为command
+    //是否按下Control键，在Mac上为command那个
     if(k->modifiers()==Qt::ControlModifier){
         if(k->key()==Qt::Key_Q){
             this->close();

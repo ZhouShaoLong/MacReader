@@ -286,7 +286,7 @@ void MainWindow::on_actionupload_triggered()
 
     data = document.toJson(QJsonDocument::Compact);
 
-    FtpFinfo.setHostPort("127.0.0.1",8080);
+    FtpFinfo.setHostPort("120.25.60.217",8080);
     FtpFinfo.setPattern(net_saveBook);
     FtpFinfo.post(data);
 
@@ -309,6 +309,7 @@ void MainWindow::uploadProgress(qint64 bytesSent, qint64 bytesTotal)
     pro->setValue((int)bytesSent);
     if(bytesSent==bytesTotal){
         QMessageBox::information(NULL,tr("上传文件"),tr("文件上传成功"),QMessageBox::Ok);
+        return;
     }
 }
 
@@ -318,6 +319,7 @@ void MainWindow::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
     pro->setValue((int)bytesReceived);
     if(bytesReceived==bytesTotal){
         QMessageBox::information(NULL,tr("下载文件"),tr("文件下载成功"),QMessageBox::Ok);
+        return;
     }
 }
 
